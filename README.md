@@ -30,6 +30,7 @@
   <a href="#download">Download</a> •
   <a href="#features">Features</a> •
   <a href="#api">API</a> •
+  <a href="#telegram-integration">Telegram Integration</a> •
   <a href="#roadmap">Roadmap</a>
 </p>
 
@@ -171,6 +172,21 @@ curl -X POST http://localhost:8000/profiles \
 - Content creation automation
 
 Full API documentation available at `http://localhost:8000/docs` when running.
+
+---
+
+## Telegram Integration
+
+Voicebox can be integrated with Telegram bots through a dedicated bot worker service.
+
+- End-to-end architecture and callback routing: `docs/telegram-integration.md`
+- Environment variables for bot and backend services
+- Polling vs webhook deployment modes
+- Docker and systemd run scenarios
+- Incident runbook (model download failures, generation timeout, Telegram 429/5xx)
+- Local testing guide for Telegram handlers in `CONTRIBUTING.md`
+
+Start with the full guide: **[`docs/telegram-integration.md`](docs/telegram-integration.md)**.
 
 ---
 

@@ -209,6 +209,50 @@ git checkout -b fix/your-bug-fix
 - Check for TypeScript/Python errors
 - Verify UI components render correctly
 
+### Testing Telegram handlers locally
+
+If you are contributing bot-related logic (commands, callback handlers, retry behavior), use this local workflow:
+
+1. **Run Voicebox backend**
+   ```bash
+   cd backend
+   source venv/bin/activate
+   uvicorn main:app --reload --port 8000
+   ```
+
+2. **Set bot environment variables**
+   ```bash
+   export TELEGRAM_BOT_TOKEN=123456:replace_me
+   export TELEGRAM_MODE=polling
+   export VOICEBOX_API_URL=http://localhost:8000
+   export VOICEBOX_API_TIMEOUT_SEC=120
+   export BOT_CONCURRENCY=1
+   export LOG_LEVEL=DEBUG
+   ```
+
+3. **Run bot worker locally**
+   ```bash
+   # replace with your bot module entrypoint
+   python -m bot.main
+   ```
+
+4. **Validate callback routes manually**
+   - Trigger `/start`, generation flow, and inline button callbacks.
+   - Verify callback data parsing (e.g. `gen:start`, `gen:retry:<request_id>`).
+   - Verify idempotency: repeated callback deliveries should not duplicate generation.
+
+5. **Simulate failure scenarios**
+   - Stop backend temporarily to verify timeout handling and user-facing errors.
+   - Throttle outgoing calls in test setup to validate retry/backoff logic.
+   - Confirm Telegram `429` handling honors `retry_after`.
+
+6. **Webhook-mode smoke test (optional)**
+   - Expose local bot endpoint via secure tunnel (for example ngrok/cloudflared).
+   - Set webhook URL and secret token.
+   - Confirm signature/secret validation and low-latency ack behavior.
+
+For architecture, deployment, and incident procedures, see `docs/telegram-integration.md`.
+
 ### 4. Commit Your Changes
 
 Write clear, descriptive commit messages:
