@@ -23,3 +23,6 @@ numba>=0.60.0,<0.61.0
 # Utilities
 python-multipart>=0.0.6
 Pillow>=10.0.0
+
+# Telegram bot
+aiogram>=3.4.1
