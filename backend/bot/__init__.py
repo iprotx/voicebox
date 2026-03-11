@@ -1,1 +1,1 @@
-"""Telegram bot package for Voicebox."""
+"""Telegram bot integration helpers."""
